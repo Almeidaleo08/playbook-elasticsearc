@@ -1,0 +1,38 @@
+- name: Update
+  yum: name=* state=latest
+
+- name: install nginx
+  yum: name=nginx state=latest
+
+- name: install httpd-tools
+  yum: name=httpd-tools state=latest
+
+- name: copying elasticsearch conf
+  template:
+    src: elasticsearch.conf.j2
+    dest: /etc/nginx/conf.d/elasticsearch.conf
+    force: yes
+
+- name: Installing Python 3, PIP 3 and Development Tools
+  yum: name={{ item }} state=latest
+  with_items:
+    - python34
+    - python34-devel
+    - python34-pip
+
+- name: installing passlib
+  pip:
+    name: passlib
+
+- htpasswd:
+    path: /etc/nginx/.htpasswd
+    name: admin
+    password: 'ru030QqfBF'
+    owner: root
+    group: root
+
+- name: nginx init
+  service: name=nginx state=restarted
+
+- name: chkconfig
+  shell: chkconfig nginx on

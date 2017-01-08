@@ -1,0 +1,28 @@
+network.host: 0.0.0.0
+cluster.name: palantir
+node.name: node1
+path.data: /data
+index.number_of_shards: 5
+index.number_of_replicas: 1
+node.master: true
+node.data: true
+
+bootstrap.mlockall: true
+transport.tcp.port: 9300
+http.port: 9200
+discovery.zen.minimum_master_nodes: 3
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts:
+discovery.zen.ping.timeout: 3s
+gateway.recover_after_nodes: 4
+gateway.expected_nodes: 5
+gateway.recover_after_time: 2m
+
+
+script.engine.javascript.inline.search: on
+
+
+index.merge.scheduler.max_thread_count: 4
+index.store.throttle.type:  merge
+indices.store.throttle.max_bytes_per_sec: 150mb
+action.destructive_requires_name: true
